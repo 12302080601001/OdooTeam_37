@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🌍 GlobeTrotter - World-Class Travel Planning Platform
 
 A comprehensive travel planning platform with multiple role-based dashboards built with React.js, Node.js, Bootstrap, and MySQL.
@@ -322,3 +323,7 @@ MIT License - see LICENSE file for details
 - MySQL for database
 - Chart.js for data visualization
 - Framer Motion for animations
+=======
+# OdooTeam_37
+
+>>>>>>> 3d4c50896493d40e6c932140ff5b1351a0a320ab
