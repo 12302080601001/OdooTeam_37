@@ -166,7 +166,6 @@ Trip.prototype.isCompleted = function() {
 
 // Add indexes
 Trip.addHook('afterSync', async () => {
-  // Indexes are automatically created by Sequelize based on model definition
   console.log('✅ Trip model synchronized with indexes');
 });
 
