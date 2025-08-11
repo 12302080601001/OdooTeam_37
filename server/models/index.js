@@ -1,10 +1,19 @@
 const { connectDB, sequelize } = require('../config/database');
 const User = require('./User');
 const Trip = require('./Trip');
+const Activity = require('./Activity');
+const Expense = require('./Expense');
+const VendorService = require('./VendorService');
 
 // Define associations
 User.hasMany(Trip, { foreignKey: 'userId', as: 'trips' });
 Trip.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+
+Trip.hasMany(Activity, { foreignKey: 'tripId', as: 'activities' });
+Activity.belongsTo(Trip, { foreignKey: 'tripId', as: 'trip' });
+
+Trip.hasMany(Expense, { foreignKey: 'tripId', as: 'expenses' });
+Expense.belongsTo(Trip, { foreignKey: 'tripId', as: 'trip' });
 
 // Initialize database connection and create default admin
 const initializeDatabase = async () => {
@@ -48,6 +57,9 @@ const createDefaultAdmin = async () => {
 module.exports = {
   User,
   Trip,
+  Activity,
+  Expense,
+  VendorService,
   sequelize,
   initializeDatabase,
   createDefaultAdmin

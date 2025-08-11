@@ -69,6 +69,58 @@ const emailTemplates = {
     `
   },
 
+  passwordReset: {
+    subject: '🔐 Reset Your GlobeTrotter Password',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px; overflow: hidden;">
+        <div style="padding: 40px 30px; text-align: center;">
+          <h1 style="margin: 0; font-size: 28px; font-weight: bold;">🔐 Password Reset Request</h1>
+          <p style="margin: 20px 0; font-size: 18px; opacity: 0.9;">We received a request to reset your password</p>
+        </div>
+
+        <div style="background: white; color: #333; padding: 30px;">
+          <h2 style="color: #667eea; margin-top: 0;">Reset Your Password</h2>
+
+          <p>Hi <strong>{{firstName}} {{lastName}}</strong>,</p>
+
+          <p>We received a request to reset the password for your GlobeTrotter account. If you made this request, click the button below to reset your password:</p>
+
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="{{resetUrl}}" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; display: inline-block; font-size: 16px;">
+              🔐 Reset My Password
+            </a>
+          </div>
+
+          <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p style="margin: 0; color: #856404;"><strong>⚠️ Important:</strong></p>
+            <ul style="margin: 10px 0 0 0; color: #856404;">
+              <li>This link will expire in 1 hour for security reasons</li>
+              <li>If you didn't request this reset, please ignore this email</li>
+              <li>Your password will remain unchanged until you create a new one</li>
+            </ul>
+          </div>
+
+          <p style="margin-top: 30px;">If the button doesn't work, copy and paste this link into your browser:</p>
+          <p style="word-break: break-all; background: #f8f9fa; padding: 10px; border-radius: 4px; font-family: monospace; font-size: 14px;">{{resetUrl}}</p>
+
+          <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+
+          <p style="color: #666; font-size: 14px; margin: 0;">
+            If you have any questions or concerns, please contact our support team at
+            <a href="mailto:support@globetrotter.com" style="color: #667eea;">support@globetrotter.com</a>
+          </p>
+        </div>
+
+        <div style="background: #f8f9fa; padding: 20px; text-align: center; color: #666;">
+          <p style="margin: 0; font-size: 14px;">
+            This email was sent by GlobeTrotter. If you no longer wish to receive these emails,
+            you can <a href="#" style="color: #667eea;">unsubscribe here</a>.
+          </p>
+        </div>
+      </div>
+    `
+  },
+
   login: {
     subject: '🔐 Login Alert - GlobeTrotter Account Access',
     html: `
@@ -192,7 +244,7 @@ const sendWelcomeEmail = async (user) => {
     lastName: user.lastName,
     dashboardUrl: `${process.env.CLIENT_URL || 'http://localhost:3000'}/dashboard`
   };
-  
+
   return await sendEmail(user.email, 'welcome', data);
 };
 
@@ -203,7 +255,7 @@ const sendLoginAlert = async (user, loginInfo = {}) => {
     location: loginInfo.location || 'Unknown',
     securityUrl: `${process.env.CLIENT_URL || 'http://localhost:3000'}/security`
   };
-  
+
   return await sendEmail(user.email, 'login', data);
 };
 
@@ -217,8 +269,19 @@ const sendTripCreatedEmail = async (user, trip) => {
     budget: trip.budget ? `${trip.currency} ${trip.budget.toLocaleString()}` : 'Not set',
     tripUrl: `${process.env.CLIENT_URL || 'http://localhost:3000'}/trips/${trip._id}`
   };
-  
+
   return await sendEmail(user.email, 'tripCreated', data);
+};
+
+// Send password reset email
+const sendPasswordResetEmail = async (user, resetUrl) => {
+  const data = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    resetUrl: resetUrl
+  };
+
+  return await sendEmail(user.email, 'passwordReset', data);
 };
 
 module.exports = {
@@ -226,5 +289,6 @@ module.exports = {
   sendWelcomeEmail,
   sendLoginAlert,
   sendTripCreatedEmail,
+  sendPasswordResetEmail,
   transporter
 };

@@ -26,11 +26,11 @@ const Login = () => {
     setLoading(true);
 
     const result = await login(formData.email, formData.password);
-    
+
     if (result.success) {
       navigate('/dashboard');
     }
-    
+
     setLoading(false);
   };
 
@@ -150,11 +150,18 @@ const Login = () => {
 
                 {/* Demo Credentials */}
                 <div className="mt-4 p-3 bg-light rounded">
-                  <h6 className="fw-bold mb-2">Demo Credentials:</h6>
+                  <h6 className="fw-bold mb-2">Demo Credentials (Offline Mode):</h6>
                   <small className="text-muted">
                     <strong>Admin:</strong> admin@globetrotter.com / admin123<br />
-                    <strong>Traveller:</strong> user@example.com / password123
+                    <strong>Traveller:</strong> user@example.com / password123<br />
+                    <strong>Planner:</strong> planner@example.com / planner123
                   </small>
+                  <div className="mt-2">
+                    <small className="text-info">
+                      <i className="fas fa-info-circle me-1"></i>
+                      Backend is offline. You can also register new accounts that will work locally.
+                    </small>
+                  </div>
                 </div>
               </div>
             </motion.div>

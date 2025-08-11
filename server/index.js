@@ -5,7 +5,7 @@ const rateLimit = require('express-rate-limit');
 const path = require('path');
 require('dotenv').config();
 
-const { initializeDatabase } = require('./models');
+const { connectDB } = require('./config/database');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const tripRoutes = require('./routes/trips');
@@ -34,8 +34,8 @@ app.use('/api/', limiter);
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://yourdomain.com'] 
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://yourdomain.com']
     : ['http://localhost:3000'],
   credentials: true
 }));
@@ -69,7 +69,7 @@ app.get('/api/health', (req, res) => {
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
-  
+
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
   });
@@ -78,24 +78,24 @@ if (process.env.NODE_ENV === 'production') {
 // Global error handler
 app.use((err, req, res, next) => {
   console.error('Error:', err);
-  
+
   if (err.name === 'ValidationError') {
     return res.status(400).json({
       error: 'Validation Error',
       details: err.errors
     });
   }
-  
+
   if (err.name === 'SequelizeUniqueConstraintError') {
     return res.status(400).json({
       error: 'Duplicate entry',
       message: 'This record already exists'
     });
   }
-  
+
   res.status(err.status || 500).json({
-    error: process.env.NODE_ENV === 'production' 
-      ? 'Internal Server Error' 
+    error: process.env.NODE_ENV === 'production'
+      ? 'Internal Server Error'
       : err.message,
     ...(process.env.NODE_ENV !== 'production' && { stack: err.stack })
   });
@@ -112,8 +112,9 @@ app.use('*', (req, res) => {
 // Initialize server
 const startServer = async () => {
   try {
-    // Initialize database connection
-    await initializeDatabase();
+    // Connect to SQLite database
+    console.log('🔄 Using SQLite database');
+    await connectDB();
 
     // Start server
     app.listen(PORT, () => {

@@ -21,8 +21,8 @@ const Activity = sequelize.define('Activity', {
   },
   category: {
     type: DataTypes.ENUM(
-      'accommodation', 'transportation', 'food', 'sightseeing', 
-      'adventure', 'cultural', 'shopping', 'entertainment', 
+      'accommodation', 'transportation', 'food', 'sightseeing',
+      'adventure', 'cultural', 'shopping', 'entertainment',
       'relaxation', 'business', 'other'
     ),
     allowNull: false
@@ -145,13 +145,13 @@ const Activity = sequelize.define('Activity', {
   tableName: 'activities',
   indexes: [
     {
-      fields: ['trip_id']
+      fields: ['tripId']
     },
     {
       fields: ['category']
     },
     {
-      fields: ['scheduled_date']
+      fields: ['scheduledDate']
     },
     {
       fields: ['status']
@@ -163,16 +163,16 @@ const Activity = sequelize.define('Activity', {
 });
 
 // Instance methods
-Activity.prototype.isUpcoming = function() {
+Activity.prototype.isUpcoming = function () {
   return new Date(this.scheduledDate) > new Date();
 };
 
-Activity.prototype.isToday = function() {
+Activity.prototype.isToday = function () {
   const today = new Date().toISOString().split('T')[0];
   return this.scheduledDate === today;
 };
 
-Activity.prototype.getFormattedTime = function() {
+Activity.prototype.getFormattedTime = function () {
   if (this.startTime && this.endTime) {
     return `${this.startTime} - ${this.endTime}`;
   } else if (this.startTime) {
@@ -181,7 +181,7 @@ Activity.prototype.getFormattedTime = function() {
   return 'Time TBD';
 };
 
-Activity.prototype.getDurationHours = function() {
+Activity.prototype.getDurationHours = function () {
   if (this.duration) {
     return Math.round((this.duration / 60) * 100) / 100;
   }

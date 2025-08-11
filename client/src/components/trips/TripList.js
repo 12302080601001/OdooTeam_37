@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import axios from 'axios';
+import axiosInstance from '../../utils/axios';
 import LoadingSpinner from '../common/LoadingSpinner';
 
 const TripList = () => {
@@ -22,7 +22,7 @@ const TripList = () => {
       if (filters.status) params.append('status', filters.status);
       if (filters.search) params.append('search', filters.search);
 
-      const response = await axios.get(`/api/trips?${params}`);
+      const response = await axiosInstance.get(`/api/trips?${params}`);
       setTrips(response.data.trips);
     } catch (error) {
       console.error('Error fetching trips:', error);
@@ -151,9 +151,9 @@ const TripList = () => {
                 className="card card-modern h-100"
               >
                 {trip.coverImage && (
-                  <img 
-                    src={trip.coverImage} 
-                    className="card-img-top" 
+                  <img
+                    src={trip.coverImage}
+                    className="card-img-top"
                     alt={trip.title}
                     style={{ height: '200px', objectFit: 'cover' }}
                   />
@@ -165,11 +165,11 @@ const TripList = () => {
                       {trip.status.charAt(0).toUpperCase() + trip.status.slice(1)}
                     </span>
                   </div>
-                  
+
                   {trip.description && (
                     <p className="card-text text-muted small mb-3">
-                      {trip.description.length > 100 
-                        ? `${trip.description.substring(0, 100)}...` 
+                      {trip.description.length > 100
+                        ? `${trip.description.substring(0, 100)}...`
                         : trip.description
                       }
                     </p>
@@ -218,15 +218,15 @@ const TripList = () => {
 
                   <div className="mt-auto">
                     <div className="d-flex gap-2">
-                      <Link 
-                        to={`/trips/${trip.id}`} 
+                      <Link
+                        to={`/trips/${trip.id}`}
                         className="btn btn-outline-primary btn-sm flex-fill"
                       >
                         <i className="fas fa-eye me-1"></i>
                         View
                       </Link>
-                      <Link 
-                        to={`/trips/${trip.id}/edit`} 
+                      <Link
+                        to={`/trips/${trip.id}/edit`}
                         className="btn btn-outline-warning btn-sm flex-fill"
                       >
                         <i className="fas fa-edit me-1"></i>
@@ -259,7 +259,7 @@ const TripList = () => {
                 <i className="fas fa-suitcase fa-4x text-muted mb-4"></i>
                 <h4>No trips found</h4>
                 <p className="text-muted mb-4">
-                  {filters.search || filters.status 
+                  {filters.search || filters.status
                     ? "No trips match your current filters. Try adjusting your search criteria."
                     : "You haven't planned any trips yet. Start your travel journey today!"
                   }

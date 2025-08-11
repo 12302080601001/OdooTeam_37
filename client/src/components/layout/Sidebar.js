@@ -35,10 +35,15 @@ const Sidebar = () => {
     ],
     vendor: [
       { path: '/dashboard', icon: 'fas fa-tachometer-alt', label: 'Dashboard' },
-      { path: '/vendor/services', icon: 'fas fa-store', label: 'My Services' },
+      { path: '/vendor/services', icon: 'fas fa-concierge-bell', label: 'Services' },
       { path: '/vendor/bookings', icon: 'fas fa-calendar-check', label: 'Bookings' },
-      { path: '/vendor/revenue', icon: 'fas fa-dollar-sign', label: 'Revenue' },
-      { path: '/profile', icon: 'fas fa-user', label: 'Profile' }
+      { path: '/vendor/revenue', icon: 'fas fa-chart-line', label: 'Revenue' },
+      { path: '/vendor/reviews', icon: 'fas fa-star', label: 'Reviews' },
+      { path: '/vendor/communication', icon: 'fas fa-comments', label: 'Messages' },
+      { path: '/vendor/marketing', icon: 'fas fa-bullhorn', label: 'Marketing' },
+      { path: '/vendor/inventory', icon: 'fas fa-boxes', label: 'Inventory' },
+      { path: '/vendor/reports', icon: 'fas fa-chart-bar', label: 'Reports' },
+      { path: '/vendor/profile', icon: 'fas fa-user-cog', label: 'Profile' }
     ]
   };
 
@@ -48,8 +53,8 @@ const Sidebar = () => {
     <div className="sidebar-modern d-none d-md-block">
       <div className="p-4">
         <div className="text-center mb-4">
-          <div className="bg-white bg-opacity-20 rounded-circle d-inline-flex align-items-center justify-content-center mb-2" 
-               style={{ width: '60px', height: '60px' }}>
+          <div className="bg-white bg-opacity-20 rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+            style={{ width: '60px', height: '60px' }}>
             <i className="fas fa-user fa-2x text-white"></i>
           </div>
           <h6 className="text-white mb-1">{user?.firstName} {user?.lastName}</h6>
@@ -68,9 +73,8 @@ const Sidebar = () => {
             >
               <Link
                 to={item.path}
-                className={`sidebar-item text-decoration-none text-white d-flex align-items-center ${
-                  isActive(item.path) ? 'active' : ''
-                }`}
+                className={`sidebar-item text-decoration-none text-white d-flex align-items-center ${isActive(item.path) ? 'active' : ''
+                  }`}
               >
                 <i className={`${item.icon} me-3`}></i>
                 {item.label}

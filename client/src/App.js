@@ -4,6 +4,7 @@ import { useAuth } from './contexts/AuthContext';
 import LoadingSpinner from './components/common/LoadingSpinner';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import SessionManager from './components/auth/SessionManager';
+import './styles/vendor.css';
 
 // Auth Components
 import Login from './components/auth/Login';
@@ -73,8 +74,8 @@ function App() {
             <main className="p-4">
               <Routes>
                 {/* Dashboard Routes */}
-                <Route 
-                  path="/dashboard" 
+                <Route
+                  path="/dashboard"
                   element={
                     <ProtectedRoute>
                       {user?.role === 'admin' && <AdminDashboard />}
@@ -82,99 +83,99 @@ function App() {
                       {user?.role === 'planner' && <PlannerDashboard />}
                       {user?.role === 'vendor' && <VendorDashboard />}
                     </ProtectedRoute>
-                  } 
+                  }
                 />
 
                 {/* Trip Routes */}
-                <Route 
-                  path="/trips" 
+                <Route
+                  path="/trips"
                   element={
                     <ProtectedRoute>
                       <TripList />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                <Route 
-                  path="/trips/create" 
+                <Route
+                  path="/trips/create"
                   element={
                     <ProtectedRoute>
                       <TripCreate />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                <Route 
-                  path="/trips/:id" 
+                <Route
+                  path="/trips/:id"
                   element={
                     <ProtectedRoute>
                       <TripDetail />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                <Route 
-                  path="/trips/:id/edit" 
+                <Route
+                  path="/trips/:id/edit"
                   element={
                     <ProtectedRoute>
                       <TripEdit />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
 
                 {/* Activity Routes */}
-                <Route 
-                  path="/trips/:tripId/activities" 
+                <Route
+                  path="/trips/:tripId/activities"
                   element={
                     <ProtectedRoute>
                       <ActivityList />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                <Route 
-                  path="/trips/:tripId/activities/create" 
+                <Route
+                  path="/trips/:tripId/activities/create"
                   element={
                     <ProtectedRoute>
                       <ActivityCreate />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
 
                 {/* Admin Routes */}
-                <Route 
-                  path="/admin/*" 
+                <Route
+                  path="/admin/*"
                   element={
                     <ProtectedRoute requiredRole="admin">
                       <AdminDashboard />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
 
                 {/* Vendor Routes */}
-                <Route 
-                  path="/vendor/*" 
+                <Route
+                  path="/vendor/*"
                   element={
                     <ProtectedRoute requiredRole="vendor">
                       <VendorDashboard />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
 
                 {/* Planner Routes */}
-                <Route 
-                  path="/planner/*" 
+                <Route
+                  path="/planner/*"
                   element={
                     <ProtectedRoute requiredRole="planner">
                       <PlannerDashboard />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
 
                 {/* Profile Routes */}
-                <Route 
-                  path="/profile" 
+                <Route
+                  path="/profile"
                   element={
                     <ProtectedRoute>
                       <Profile />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
 
                 {/* Public Routes (accessible when authenticated) */}

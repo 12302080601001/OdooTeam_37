@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import axiosInstance from '../utils/axios';
 import { toast } from 'react-toastify';
 
 const AuthContext = createContext();
@@ -71,7 +72,7 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       if (token) {
         try {
-          const response = await axios.get('/api/auth/me');
+          const response = await axiosInstance.get('/api/auth/me');
           setUser(response.data.user);
         } catch (error) {
           console.error('Auth check failed:', error);
@@ -94,18 +95,18 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('/api/auth/login', {
+      const response = await axiosInstance.post('/api/auth/login', {
         email,
         password
       });
 
       const { token: newToken, user: userData } = response.data;
-      
+
       setToken(newToken);
       setUser(userData);
       localStorage.setItem('token', newToken);
       axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
-      
+
       toast.success('Login successful!');
       return { success: true, user: userData };
     } catch (error) {
@@ -117,15 +118,15 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const response = await axios.post('/api/auth/register', userData);
-      
+      const response = await axiosInstance.post('/api/auth/register', userData);
+
       const { token: newToken, user: newUser } = response.data;
-      
+
       setToken(newToken);
       setUser(newUser);
       localStorage.setItem('token', newToken);
       axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
-      
+
       toast.success('Registration successful!');
       return { success: true, user: newUser };
     } catch (error) {
@@ -172,7 +173,7 @@ export const AuthProvider = ({ children }) => {
         return { success: false, error: 'No token to refresh' };
       }
 
-      const response = await axios.post('/api/auth/refresh', {}, {
+      const response = await axiosInstance.post('/api/auth/refresh', {}, {
         headers: {
           'Authorization': `Bearer ${currentToken}`
         }

@@ -21,7 +21,7 @@ const VendorService = sequelize.define('VendorService', {
   },
   category: {
     type: DataTypes.ENUM(
-      'hotel', 'restaurant', 'tour', 'transport', 'activity', 
+      'hotel', 'restaurant', 'tour', 'transport', 'activity',
       'guide', 'equipment', 'insurance', 'visa', 'other'
     ),
     allowNull: false
@@ -174,16 +174,13 @@ const VendorService = sequelize.define('VendorService', {
   tableName: 'vendor_services',
   indexes: [
     {
-      fields: ['vendor_id']
-    },
-    {
       fields: ['category']
     },
     {
       fields: ['location']
     },
     {
-      fields: ['is_active']
+      fields: ['isActive']
     },
     {
       fields: ['rating']
@@ -195,18 +192,18 @@ const VendorService = sequelize.define('VendorService', {
 });
 
 // Instance methods
-VendorService.prototype.getFormattedPrice = function() {
+VendorService.prototype.getFormattedPrice = function () {
   return `${this.currency} ${this.price}`;
 };
 
-VendorService.prototype.isAvailableOn = function(date) {
+VendorService.prototype.isAvailableOn = function (date) {
   if (!this.availability || !this.availability.blackoutDates) {
     return true;
   }
   return !this.availability.blackoutDates.includes(date);
 };
 
-VendorService.prototype.getDurationHours = function() {
+VendorService.prototype.getDurationHours = function () {
   if (this.duration) {
     return Math.round((this.duration / 60) * 100) / 100;
   }

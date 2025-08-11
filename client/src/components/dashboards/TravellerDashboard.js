@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { motion } from 'framer-motion';
-import axios from 'axios';
+import axiosInstance from '../../utils/axios';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { Line, Doughnut, Bar } from 'react-chartjs-2';
 import {
@@ -41,7 +41,7 @@ const TravellerDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await axios.get(`/api/dashboard/traveller/${user.id}`);
+      const response = await axiosInstance.get(`/api/dashboard/traveller/${user.id}`);
       setDashboardData(response.data);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
@@ -258,7 +258,7 @@ const TravellerDashboard = () => {
               {budgetBreakdown.planned > 0 ? (
                 <>
                   <div className="chart-container mb-3" style={{ height: '200px' }}>
-                    <Doughnut 
+                    <Doughnut
                       data={budgetChartData}
                       options={{
                         responsive: true,
@@ -309,7 +309,7 @@ const TravellerDashboard = () => {
               </div>
               <div className="card-body">
                 <div className="chart-container" style={{ height: '300px' }}>
-                  <Bar 
+                  <Bar
                     data={destinationChartData}
                     options={{
                       responsive: true,
